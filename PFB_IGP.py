@@ -1,5 +1,4 @@
-
-PROFIT AND LOSS
+#profit and loss 
 from pathlib import Path
 import csv
 fp = Path.cwd()/'csv_reports'/"Profit_And_Loss.csv"
@@ -10,10 +9,11 @@ with fp.open(mode="r", encoding="UTF-8", newline="") as file:
     for row in reader:
         Profit_And_Loss.append([row[0],row[4]])
 
-def profit_loss():
+def profit_loss_function():
     '''
     This function is for calculating the difference in the net profit column and prints out the day and amount the highest increment occurs
     '''
+    difference_in_net_profit = []
     # creates a for loop that iterates over a sequence of numbers starting from 1 up to the length of the "Profit_And_Loss" dataset
     for day in range(1, len(Profit_And_Loss)): 
          # retrieves the profit value for the current day and converts it to an integer, and assign it to the variable current_day_profit
@@ -24,11 +24,10 @@ def profit_loss():
         difference = prev_day_profit - current_day_profit
 
         if difference > 0:
-            print(f"[PROFIT DEFICIT] DAY: {Profit_And_Loss[day][0]}, AMOUNT: USD{difference}") # Prints out the day and the amount of difference 
-
+           difference_in_net_profit.append(f"[PROFIT DEFICIT] DAY: {Profit_And_Loss[day][0]}, AMOUNT: USD{difference}")
+    return difference_in_net_profit
 # Call the function
-profit_loss()
-
+profit_loss_function()
 
 
 
@@ -39,38 +38,33 @@ profit_loss()
 
 
 MAIN
-# from pathlib import Path
-# from overheads import find_highest_overhead
-# from cash_on_hand import cash_on_hand
-# from profit_loss import profit_loss
-# main= [find_highest_overhead(), cash_on_hand(),profit_loss()]
+from cash_on_hand import cash_on_hand_function
+from overheads import find_highest_overhead
+from profit_loss import profit_loss_function
 
-# import cash_on_hand
-# import overheads
-# import profit_loss
-# result = cash_on_hand
-# print(result)
+def main ():
+    Cash_On_Hand = cash_on_hand_function()
+    Overheads = find_highest_overhead()
+    Profit_Loss = profit_loss_function()
+    
+    print(Cash_On_Hand)
+    print(Overheads)
+    print(Profit_Loss)
 
-# fp = Path.cwd()/"summary_report.txt"
-# with open("summary_report.txt","w" ) as file:
-#     result=str(main())
-#     file.write("{result}")
+    cash_deficit_lines = ""
+    for deficit in Cash_On_Hand:
+        cash_deficit_lines += deficit + "\n"
 
+    profit_loss_lines = ""
+    for profit in Profit_Loss:
+         profit_loss_lines += profit + "\n"
+         
 
-from pathlib import Path
-import csv
-def main():
-    from overheads import find_highest_overhead
-    from cash_on_hand import cash_on_hand
-    from profit_loss import profit_loss
-    return 
+    output = f"{cash_deficit_lines}"
+    output += f"[HIGHEST OVERHEAD] {Overheads[0][0].upper()}: {Overheads[0][1]}%\n"
+    output += f"{profit_loss_lines}"
+    with open('output.txt', 'w') as file: # Writes the result to a text file 
+            file.write(output)
+
 main()
-
-
-# fp = Path.cwd()/"summary_report.txt"
-# with fp.open(mode="w", encoding="UTF-8", newline="") as file:
-#     file.write(main())
-        
-with open("summary_report.txt","w" ) as file:
-    file.write(f"{main()}")
 
