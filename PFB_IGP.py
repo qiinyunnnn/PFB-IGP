@@ -1,5 +1,4 @@
 
-OVERHEADS
 from pathlib import Path
 import csv
 
@@ -24,10 +23,12 @@ def find_highest_overhead():
         if percentage > highest_percentage: # Checks if the current percentage of overhead is higher than the one selected at the start
             highest_overhead = Overhead # Assigns a new, larger percentage if the current overhead is lower than the next one it is compared to 
     return highest_overhead
-highest_overhead = find_highest_overhead()
+highest_overhead = find_highest_overhead() #
 name_of_overhead = highest_overhead[0][0] # Takes the first element from the nested list and assigns it to name_of_expense
 percentage_of_overhead = highest_overhead[0][1] # Takes the second element from the nested list and assigns it to percentage_of_expense
 print(f"[HIGHEST OVERHEAD] {name_of_overhead}: {percentage_of_overhead}%") # Prints out the name and percentage of the highest overhead
+
+find_highest_overhead() # Call the function to perform the calculations and display results
 
 
 
